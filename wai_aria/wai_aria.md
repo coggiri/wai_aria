@@ -12,8 +12,7 @@
     - aria-controls
     - aria-labelledby
     - tabindex
-
-   ```
+  ~~~html
     <ul class="tablist" role="tablist">
         <li id="tab1" class="tab" role="tab" aria-controls="tab-panel1">boo</li>
         <li id="tab2" class="tab" role="tab" aria-controls="tab-panel2">far</li>
@@ -28,7 +27,7 @@
     <div id="tab-panel3" class="tabpanel" role="tabpanel" aria-labelledby="tab3">
      ...
     </div>
-   ```
+   ~~~
 3. popup
 4. nav
 5. figure
