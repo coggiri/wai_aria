@@ -100,6 +100,27 @@ or
 아래와 같은 내용 관련해서 실무에 적용 할 수 있는 예제 및 wai-aria 속성에 관해서 명시하겠습니다
 
 1. button
+    - *button* 역할은 사용자의 동작에 반응하, 클릭할 수 있는 요소에 사용해야 합니다 혼자서 사용할 때 role="button"은 어떠한 요소(ex : <p>> <span> <div>)도 스크린 리더가 버튼으로 인식하게 할 수 있습니다. 추가로 aria-pressed 속성을 통해 토글 가능한 버튼을 만들 수 있습니다
+    > 참고:  HTML 기본 버튼(<button>, <input type="button" />, <input type="submit" />, <input type="reset" />, <input type="image" />)은 모든 유저 에이전트와 보조 기술에서 지원하며 기본으로 키보드와 포커스 기능을 지원하기 때문에, 가능하면 role="button" 보다 HTML 버튼을 사용하는게 좋습니다.
+    - aria-pressed="false" / aria-pressed="true" / aria-pressed="mixed"
+
+    #### ARIA 기본 버튼
+    > In the snippet below, a span element has been given the button role. Because a <span> element is used, the tabindex attribute is required to make the button focusable and part of the tab order. Note that this snippet implies that CSS styles are provided to make the <span> element look like a button and that handleBtnClick and handleBtnKeyUp are event handlers that perform the button's action when clicked and when the Space key is pressed.
+
+    ~~~html
+        <span role="button" tabindex="0" onclick="handleBtnClick()" onKeyUp="handleBtnKeyUp()">Save</span>
+    ~~~
+
+    #### ARIA 토글 버튼
+    > In this snippet a native HTML button is converted to a toggle button using the aria-pressed attribute. Note that the tabindex attribute needs not to be used here because the <button> element is already focusable by default. When the button is activated, the aria-pressed value keeps on switching between true and false;
+
+    > HTML button은 *aria-pressed* 속성을 사용해서 변환이 됩니다. *tabindex* 속성은 아래 버튼태그에서 이용할 필요가 없습니다 왜냐하면 <button> 요소는 이미 default값으로 포커스가 될 수 있기 때문입니다. *aria-pressed* value값은 true/false로 값을 계속해서 바꾸게 됩니다.
+
+    ~~~html
+        <button role="button" aria-pressed="false" onclick="handleBtnClick(event)" onKeyUp="handleBtnKeyUp(event)">Edit Mode</button>
+    ~~~
+
+    참고 url : https://developer.mozilla.org/ko/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
 2. tab/pannel
     - role="tablist"
     - role="tab"
@@ -124,7 +145,36 @@ or
     </div>
    ~~~
 
+   참고 url : - https://mulder21c.github.io/2018/06/04/how-to-make-accessible-tab-content/
+
 3. popup
+    - native HTML의 한계점
+        - 팝업이 떴다라는 정보를 인지할 수 없다
+        - 팝업 이외의 문서 정보에 접근이 된다.
+        - 키보다 tab키 운용이 팝업을 벗어난다
+        - 키보드 트랩 문제 (IE8 ~ 10)
+    - 필요한 사항
+        - 팝업이 열렸을 때 팝ㄷ업 내용 인식 가능
+        - 팝업 아래의 Windows는 비활성화
+        - tab키 운용이 팝업 내부에서만 순환
+        - 팝업이 닫혔을 때 초점이 원래 있던 곳으로 반환
+    #### how to ?
+    - step 1. role = "dialog"
+        - 콘텐츠 역할 정의
+        > 사용자가 정보를 입력하거나 응답할 것을 요구하도록 유도하기 위해 어플리케이션의 현재 처리를 중단시키도록 설계된 어플리케이션 윈도
+
+    ~~~html
+       <div class="popup_wrap">
+           <div class="popup_body" role="dialog" aria-labelledby="pop-title">
+               <strong id="pop_title" class="modal_header">접근 가능한 레이어 팝업</strong>
+               <div class="modal_body">
+                   <p>접근 가능한 레이어 팝업이란</p>
+               </div>
+           </div>
+       </div>
+    ~~~
+    - step 2.
+  참고 url : - https://mulder21c.github.io/seminar/20171222/
 4. nav
 5. figure
 6. checkbox
@@ -136,7 +186,6 @@ or
 12. breadcrumb
 
 ### wai-aria 속성
-
 
 - aria-atomic
 - aria-busy (state)
@@ -163,4 +212,4 @@ or
 ----------------------
 ### 참조 url
 - https://w3c.github.io/using-aria/
-
+- https://mulder21c.github.io/2018/06/04/how-to-make-accessible-tab-content/
