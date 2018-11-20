@@ -1,5 +1,9 @@
 # wai_aria
 
+### First Rule of ARIA Use
+### 규칙 1. ARIA 사용의 규칙
+- If you can use a native HTML element [HTML51] or attribute with the semantics and behavior you require already built in, instead of re-purposing an element and adding an ARIA role, state or property to make it accessible, then do so.
+
 ### 규칙 2. native semamtics를 변경하지 마세요
 
 상황 1 : 개발자가 탭 역활을 하는 헤딩 태그를 마크업 하길 원한다
@@ -18,7 +22,7 @@ Do this
 
 ### 규칙 4. focusable element를 하기 위해 role="presentation" 또는 aria-hidden="true"를 사용하지 말아라
 
-2가지 속성을 focusable element에 사용하는 것은 아무것도 포커싱을 할수 없는 결과를 초래할 있다
+- 2가지 속성을 focusable element에 사용하는 것은 아무것도 포커싱을 할수 없는 결과를 초래할 있다
 
 Don't do this
 ~~~html
@@ -26,6 +30,68 @@ Don't do this
 
     <button aria-hidden="true">press me</button>
 ~~~
+
+> Applying aria-hidden to a parent/ancestor of a visible interactive element will also result in the interactive element being hidden, so don't do this either:
+
+> 상호작용하는 요소(element)인 상위 요소에 *aria-hidden* 속성을 추가하는 것은 상호작용하는 요소가 숨겨지게 될수 있습니다
+
+Don't do this
+~~~html
+    <div aria-hidden="true">
+        <button>press me</button>
+    </div>
+~~~
+
+> If an interactive element cannot be seen or interacted with, then you can apply aria-hidden, as long as it's not focusable. For example:
+
+> 상호작용하는 요소(element)가 보이지 않거나 상호작용하지 않는다면 당신은 *aria-hidden*을 추가할 수 있습니다. 포커스가 될 수 없기만 하면! 아래 예제 참고
+
+~~~html
+    button {opacity:0}
+
+    <button tabindex="-1" aria-hidden="true">press me</button>
+~~~
+
+> If an interactive element is hidden using display:none or visibility:hidden (either on the element itself, or any of the element's ancestors), it won't be focusable, and it will also be removed from the accessibility tree. This makes the addition of aria-hidden="true" or explicitly setting tabindex="-1" unnecessary.
+
+> 상호작용하는 요소(element)가 *display:none* 또는 *visibility:hidden*을 사용하여 숨김처리가 된 상태라면(그 요소 자신에게 또는 그 요소의 상위 요소에게), 그 요소는 포커스가 될 수 없다 그리고 그 요소는 *accessibility tree*에서 제거가 될 수 있다. 이러한 처리는 *aria-hidden="true"* 또는 *tabindex="-1"*의 추가를 불필요하게 만든다.
+
+### Fifth Rule. All interactive elements must have an accessible name.
+### 규칙 5. 모든 interactive 요소들은 accessible name을 가져야한다.
+
+- An interactive element only has an accessible name when its Accessibility API accessible name (or equivalent) property has a value.
+
+> For example, the input type=text in the code example below has a visible label 'user name' , but no accessible name:
+
+> 예를 들면 아래 코드에 있는 *input type=text* 눈에 보이는 'user name' 텍스트를 가지고 있다. 그러나 accessible name은 존재하지 않는다
+
+~~~html
+     user name <input type="text">
+
+        or
+
+     <span>user name</span> <input type="text">
+~~~
+
+> In comparison, the input type=text in the code example below has a visible label 'user name' and an accessible name. This example has an accessible name because the input element is a labelable element and the label element is used correctly to associate the label text with the input.
+
+> 비교해보면, 아래 예제 코드의 *input type=text* 눈에 보이는 'user name'그리고 accessible name을 가지고 있다. 아래 예제는 accessible name을 가진다. 왜냐하면 *input* 요소는  labelable element 그리고 *label* element는 적절하게 input 요소와 정확하게 연결이 되어있다
+
+~~~html
+<!-- Note: use of for/id or wrapping label around text
+and control methods will result in an accessible name -->
+
+<input type="text" aria-label="User Name">
+
+or
+
+<span id="p1">user name</span> <input type="text" aria-labelledby="p1">
+
+~~~
+
+> Note: The example above is for ARIA widgets. For regular HTML inputs, follow the First Rule of ARIA, and use the label element with a for attribute to associate labels with input elements.
+
+> Note: 위의 예제들은 ARIA widgets을 위한 것입니다. HTML inputs의 요소는 label 요소를 사용하세요. input과는 *for*과 *id*를 이용해서 연결하세요
 
 
 
@@ -93,4 +159,8 @@ Don't do this
 - aria-owns
 - aria-relevant
 - aria-roledescription- (new)
+
+----------------------
+### 참조 url
+- https://w3c.github.io/using-aria/
 
