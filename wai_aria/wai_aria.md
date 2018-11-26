@@ -166,7 +166,7 @@ or
     ~~~html
        <div class="popup_wrap">
            <div class="popup_body" role="dialog" aria-labelledby="pop-title">
-               <strong id="pop_title" class="modal_header">접근 가능한 레이어 팝업</strong>
+               <strong id="pop-title" class="modal_header">접근 가능한 레이어 팝업</strong>
                <div class="modal_body">
                    <p>접근 가능한 레이어 팝업이란</p>
                </div>
